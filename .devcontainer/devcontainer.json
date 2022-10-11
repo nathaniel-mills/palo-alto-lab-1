@@ -1,0 +1,14 @@
+{
+	"name": "palo-fw-workshop",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": ".."
+	},
+	"extensions": [
+		"vscoss.vscode-ansible",
+		"hashicorp.terraform",
+		"tyriar.sort-lines",
+		"mrmlnc.vscode-duplicate",
+		"sleistner.vscode-fileutils"
+	]
+}
