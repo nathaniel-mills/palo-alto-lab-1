@@ -1,0 +1,12 @@
+---
+- name: "Retrieve palo-fw AWS EC2 Details"
+  community.aws.ec2_instance_info:
+    region: "{{ aws.region }}"
+    filters:
+      instance-state-name: "running"
+      "tag:User": "{{ ec2_name_tag }}"
+  register: palo_fw_ec2_details
+
+- name: debug
+  ansible.builtin.debug:
+    msg: "{{ palo_fw_ec2_details }}"

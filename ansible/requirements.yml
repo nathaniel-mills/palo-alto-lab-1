@@ -1,0 +1,6 @@
+---
+collections:
+  - name: paloaltonetworks.panos
+    version: 2.9.0
+  - name: community.aws
+    version: 2.0.0

@@ -1,0 +1,47 @@
+---
+  - name: palo-fw-configure
+    hosts: localhost
+    gather_facts: no
+    vars_files:
+      - "variables/variables.yml"
+      - "variables/config_vars.yml"
+    pre_tasks:
+      - include_tasks: _get_aws_info.yml
+
+      - name: "Update device Provider ip_address"
+        set_fact:
+          palo_fw_connection_creds:
+            username: "{{ palo_fw_default_username }}"
+            password: "{{ palo_fw_password }}"
+            ip_address: "{{ palo_fw_ec2_details.instances[0].public_ip_address }}"
+    tasks:
+      - name: "Create address object"
+        paloaltonetworks.panos.panos_address_object:
+          provider: "{{ palo_fw_connection_creds }}"
+          name: 'google_dns_1'
+          value: '8.8.8.8'
+        register: result
+
+      - name: "Create address object group with vars"
+        paloaltonetworks.panos.panos_address_group:
+          provider: "{{ palo_fw_connection_creds }}"
+          name: '{{ item.name }}'
+          static_value: '{{ item.static_value }}'
+        register: result
+        with_items: '{{ address_groups }}'
+
+      - name: "commit configuration"
+        paloaltonetworks.panos.panos_commit_firewall:
+          provider: "{{ palo_fw_connection_creds }}"
+        register: result
+        until: result is not failed
+        retries: 3
+        delay: 30
+
+      - name: "check if ready"
+        paloaltonetworks.panos.panos_check:
+          provider: "{{ palo_fw_connection_creds }}"
+        register: result
+        until: result is not failed
+        retries: 10
+        delay: 15

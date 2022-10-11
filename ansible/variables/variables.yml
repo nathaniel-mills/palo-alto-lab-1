@@ -1,0 +1,7 @@
+---
+palo_fw_default_username: "admin"
+palo_fw_password: "CiscoPalo123!"
+ec2_name_tag: "obi-wan" 
+
+aws:
+  region: eu-west-1
