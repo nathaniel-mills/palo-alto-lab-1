@@ -1,7 +1,7 @@
 ## Instructions before building the infrastructure
 
 
-### 1. Retrieve Network Sandpit account credentials from SSO (If running this job locally)
+### 1. Ensure cli credentials are in the .aws config.
 
 ### 2. Create the S3 bucket in Network Sandpit account for the TF-State file. Copy these commands in CLI (new line after region)
 aws s3 mb s3://<bucket-name> --region <region>
